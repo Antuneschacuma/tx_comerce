@@ -1,8 +1,8 @@
-using {db.domain.suppliers as suppliers} from './suppliers';
-using {db.domain.catalog as categories } from './categories';
-using {db.common.codelist as codeLists} from '../../common/code-lists';
+namespace products.models;
 
-namespace db.domain.products;
+using {suppliers.models as suppliers} from './suppliers';
+using {categories.models as categories } from './categories';
+using {codelist.models as codeLists} from '../../common/code-lists';
 
 entity Products {
     @Common.Label:'ID do Produto'

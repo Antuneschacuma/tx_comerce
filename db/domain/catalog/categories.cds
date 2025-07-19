@@ -1,5 +1,6 @@
-namespace db.domain.catalog;
-using {db.domain.products as products} from './prooducts';
+namespace categories.models;
+
+using { products.models as products} from './products';
 
 entity Categories {
     @Common.Label:'ID da Categoria'

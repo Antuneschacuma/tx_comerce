@@ -1,6 +1,4 @@
-namespace db.common.codelist;
-
-
+namespace codelist.models;
 
 entity Currency {
     @Common.Label:'Código da Moeda'

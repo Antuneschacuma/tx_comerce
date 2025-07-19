@@ -1,5 +1,6 @@
-namespace db.domain.suppliers;
-using {db.domain.products as products} from './prooducts';
+namespace suppliers.models;
+
+using { products.models as products} from './products';
 
 entity Suppliers {
     @Common.Label:'ID do Fornecedor'
