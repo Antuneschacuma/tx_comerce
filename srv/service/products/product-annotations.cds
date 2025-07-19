@@ -1,4 +1,4 @@
-using { ProductService as service } from './product-service';
+using {  MainService as service } from '../../main-service';
 
 annotate service.Products with @(
     
@@ -91,6 +91,7 @@ annotate service.Products with {
         },
         Common.ValueListWithFixedValues : true
     );
+
     supplier @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',
@@ -109,40 +110,5 @@ annotate service.Products with {
         },
         Common.ValueListWithFixedValues : true
     );
-    moeda_codigo @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Moedas',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : moeda_codigo_codigo,
-                    ValueListProperty : 'codigo',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name',
-                },
-            ],
-        },
-        Common.ValueListWithFixedValues : true
-    );
-    unidadeMedida_codigo @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'UnidadesMedida',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : unidadeMedida_codigo_codigo,
-                    ValueListProperty : 'codigo',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name',
-                },
-            ],
-        },
-        Common.ValueListWithFixedValues : true
-    );
+   
 };
