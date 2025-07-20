@@ -5,6 +5,16 @@ annotate service.Products with @(
         Data : [
             {
                 $Type : 'UI.DataField',
+                Label : 'validFrom',
+                Value : validFrom,
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'validTo',
+                Value : validTo,
+            },
+            {
+                $Type : 'UI.DataField',
                 Value : name,
             },
             {
@@ -17,8 +27,8 @@ annotate service.Products with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'unitMeasure_code_code',
-                Value : unitMeasure_code_code,
+                Label : 'measure_code_code',
+                Value : measure_code_code,
             },
             {
                 $Type : 'UI.DataField',
@@ -58,6 +68,16 @@ annotate service.Products with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
+            Label : 'validFrom',
+            Value : validFrom,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'validTo',
+            Value : validTo,
+        },
+        {
+            $Type : 'UI.DataField',
             Value : name,
         },
         {
@@ -68,32 +88,26 @@ annotate service.Products with @(
             $Type : 'UI.DataField',
             Value : price,
         },
-        {
-            $Type : 'UI.DataField',
-            Label : 'unitMeasure_code_code',
-            Value : unitMeasure_code_code,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'currency_code_code',
-            Value : currency_code_code,
-        },
     ],
 );
 
 annotate service.Products with {
-    unitMeasure_code @Common.ValueList : {
+    measure_code @Common.ValueList : {
         $Type : 'Common.ValueListType',
         CollectionPath : 'UnitMeasurement',
         Parameters : [
             {
                 $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : unitMeasure_code_code,
+                LocalDataProperty : measure_code_code,
                 ValueListProperty : 'code',
             },
             {
                 $Type : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'name',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'type',
             },
         ],
     }
@@ -117,6 +131,14 @@ annotate service.Products with {
                 $Type : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'symbol',
             },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'exchangeRate',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'standard',
+            },
         ],
     }
 };
@@ -130,6 +152,14 @@ annotate service.Products with {
                 $Type : 'Common.ValueListParameterInOut',
                 LocalDataProperty : categorie_ID,
                 ValueListProperty : 'ID',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'validFrom',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'validTo',
             },
             {
                 $Type : 'Common.ValueListParameterDisplayOnly',
@@ -152,6 +182,14 @@ annotate service.Products with {
                 $Type : 'Common.ValueListParameterInOut',
                 LocalDataProperty : supplier_ID,
                 ValueListProperty : 'ID',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'validFrom',
+            },
+            {
+                $Type : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'validTo',
             },
             {
                 $Type : 'Common.ValueListParameterDisplayOnly',

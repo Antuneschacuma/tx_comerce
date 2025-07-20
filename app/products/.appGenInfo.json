@@ -1,12 +1,12 @@
 {
   "generationParameters": {
-    "generationDate": "Sat Jul 19 2025 15:26:35 GMT+0000 (Coordinated Universal Time)",
+    "generationDate": "Sun Jul 20 2025 11:20:06 GMT+0000 (Coordinated Universal Time)",
     "generatorPlatform": "SAP Business Application Studio",
     "serviceType": "Local Cap",
     "metadataFilename": "",
-    "serviceUrl": "http://localhost:4004/e-comerce/",
-    "appName": "product",
-    "appTitle": "Tx Commerce",
+    "serviceUrl": "http://localhost:4004/e-commerce/",
+    "appName": "products",
+    "appTitle": "Product Management",
     "appDescription": "An SAP Fiori application.",
     "appNamespace": "tx.commerce.product",
     "ui5Theme": "sap_horizon",
@@ -28,6 +28,6 @@
         "value": "None"
       }
     ],
-    "launchText": "In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:\n\nhttp://localhost:4004/product/webapp/index.html"
+    "launchText": "In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:\n\nhttp://localhost:4004/products/webapp/index.html"
   }
 }

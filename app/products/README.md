@@ -1,15 +1,15 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Sat Jul 19 2025 15:26:35 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Sun Jul 20 2025 11:20:06 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>SAP Fiori Application Generator|
 |**App Generator Version**<br>1.18.2|
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Template Used**<br>List Report Page V4|
 |**Service Type**<br>Local Cap|
-|**Service URL**<br>http://localhost:4004/e-comerce/|
-|**Module Name**<br>product|
-|**Application Title**<br>Tx Commerce|
+|**Service URL**<br>http://localhost:4004/e-commerce/|
+|**Module Name**<br>products|
+|**Application Title**<br>Product Management|
 |**Namespace**<br>tx.commerce.product|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.138.0|
@@ -19,7 +19,7 @@
 |**Main Entity**<br>Products|
 |**Navigation Entity**<br>None|
 
-## product
+## products
 
 An SAP Fiori application.
 
@@ -27,7 +27,7 @@ An SAP Fiori application.
 
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:
 
-http://localhost:4004/product/webapp/index.html
+http://localhost:4004/products/webapp/index.html
 
 #### Pre-requisites:
 

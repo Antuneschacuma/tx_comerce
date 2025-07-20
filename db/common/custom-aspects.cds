@@ -1,7 +1,7 @@
 namespace common.aspects;
-using {cuid, managed,temporal} from '@sap/cds/common';
+using { cuid, managed } from '@sap/cds/common';
 
-aspect MyCustomManagedEntity : cuid, managed,temporal {
+aspect MyCustomManagedEntity : cuid, managed{
 }
 
 entity Currency {
