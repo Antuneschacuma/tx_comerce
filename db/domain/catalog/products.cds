@@ -9,15 +9,11 @@ entity Products    :MyCustomManagedEntity {
     @Common.Label  :'ID do Produto'
     key ID         : UUID @(Core.Computed : true);
     @Common.Label  :'Nome do Produto'
-    name           : String(100); //@(Common.Text : descricao);
+    name           : String(100);
     @Common.Label  :'Descrição Detalhada'
     description    : String(500);
     @Common.Label  :'Preço Unitário'
     price          : Decimal(10, 2);
-    @Common.Label  :'Unidade de Medida'
-    measure_code   : Association to custonAspects.UnitMeasurement;
-    @Common.Label  :'Moeda'
-    currency_code  : Association to custonAspects.Currency;
     @Common.Label  :'Quantidade'
     stock          : Integer;
     @Common.Label  :'Data de Validade'
@@ -28,7 +24,9 @@ entity Products    :MyCustomManagedEntity {
     active         : Boolean default true;
     @Common.Label  :'Avaliação Média'
     rating         : Decimal(2, 1);
-    categorie      : Association to categories.Categories;
     supplier       : Association to suppliers.Suppliers;
+    currency       : Association to custonAspects.Currency;
+    categorie      : Association to categories.Categories;
+    measure        : Association to custonAspects.UnitMeasurement;
     itens          : Association to many sales.OrderItems on itens.product = $self;
 }
