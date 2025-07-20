@@ -1,4 +1,8 @@
-namespace codelist.models;
+namespace common.aspects;
+using {cuid, managed,temporal} from '@sap/cds/common';
+
+aspect MyCustomManagedEntity : cuid, managed,temporal {
+}
 
 entity Currency {
     @Common.Label:'Código da Moeda'

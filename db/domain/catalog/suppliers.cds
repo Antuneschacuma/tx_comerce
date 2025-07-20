@@ -1,9 +1,7 @@
 namespace suppliers.models;
-using {codelist.models as codeLists} from '../../common/code-lists';
-
-using { products.models as products} from './products';
-
-entity Suppliers {
+using { products.models as products } from './products';
+using { common.aspects as custonAspects,common.aspects.MyCustomManagedEntity } from '../../common/custom-aspects';
+entity Suppliers : MyCustomManagedEntity {
     @Common.Label:'ID do Fornecedor'
     key ID       : UUID @(Core.Computed : true);
     @Common.Label:'Nome do Fornecedor'
@@ -31,6 +29,6 @@ entity Suppliers {
     @Common.Label:'Observações'
     observations : String(1000);
     @Common.Label:'País'
-    country      : Association to codeLists.Country;
+    country      : Association to custonAspects.Country;
     products     : Association to many products.Products on products.supplier = $self;
 }

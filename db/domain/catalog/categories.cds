@@ -1,7 +1,8 @@
 namespace categories.models;
-using { products.models as products} from './products';
+using { products.models as products } from './products';
+using { common.aspects.MyCustomManagedEntity } from '../../common/custom-aspects';
 
-entity Categories {
+entity Categories : MyCustomManagedEntity {
     @Common.Label :'ID da Categoria'
     key ID        : UUID @(Core.Computed : true);
     @Common.Label :'Nome da Categoria'
