@@ -1,9 +1,6 @@
-// app/manage/products.cds
-using { MainService as service } from '../../srv/main-service';
-
+using MainService as service from '../../srv/main-service';
 annotate service.Products with @(
-
-    odata.draft.enabled : true,
+        odata.draft.enabled : true,
     Capabilities.InsertRestrictions.Insertable : true,
 
     UI.HeaderInfo: {
@@ -13,25 +10,15 @@ annotate service.Products with @(
         Description   : { Value:description }
     },
 
-      UI.DataPoint #RatingProduct: {
+       UI.DataPoint #RatingProduct: {
         $Type         : 'UI.DataPointType',
         Value         : rating,
         Title         : 'Avaliação Média',
-        Visualization : #Rating, // Isso transforma o número em estrelinhas
-        TargetValue   : 5,        // O valor máximo para as estrelas (e.g., de 0 a 5 estrelas)
-        // criticaliy: Se você quiser cores de criticidade baseadas no valor, use
-        // Criticality : rating, // Se 'rating' retornasse um valor de criticidade (0-4), ou
-        // CriticalityCalculation: {
-        //     Expression: 'If',
-        //     If        : [
-        //         { LT: rating, '3' }, #Error, // Se rating < 3, vermelho
-        //         { LT: rating, '4' }, #Critical, // Se rating < 4, laranja
-        //         #Good // Acima de 4, verde
-        //     ]
-        // }
+        Visualization : #Rating,
+        TargetValue   : 5,
     },
 
-   UI.FieldGroup #GeneralInfo: {
+ UI.FieldGroup #GeneralInfo: {
         $Type: 'UI.FieldGroupType',
         Data : [
             { $Type: 'UI.DataField', Value: ID, Label: 'ID do Produto' },
@@ -99,21 +86,7 @@ annotate service.Products with @(
             Target: '@UI.FieldGroup#AuditInfo'
         }
     ],
-
-
-UI.SelectionFields: [
-    ID,
-    name,
-    description,
-    price,
-    stock,
-    active,  
-    categorie_ID,
-    supplier_ID,
-    expirationDate 
-],
-
-UI.LineItem: [
+   UI.LineItem: [
     { $Type: 'UI.DataField', Value: ID, Label: 'ID' },
     { $Type: 'UI.DataField', Value: name },
     { $Type: 'UI.DataField', Value: description },
@@ -125,10 +98,20 @@ UI.LineItem: [
     { $Type: 'UI.DataField', Value: supplier.name, Label: 'Fornecedor' }, 
     { $Type: 'UI.DataField', Value: createdAt, Label: 'Criado Em' }, 
     { $Type: 'UI.DataField', Value: modifiedAt, Label: 'Modificado Em' },
-    { $Type: 'UI.DataFieldForAnnotation', Target: '@UI.DataPoint#RatingProduct' }
-]
-);
+],
 
+   UI.SelectionFields: [
+    ID,
+    name,
+    description,
+    price,
+    stock,
+    active,  
+    categorie_ID,
+    supplier_ID,
+    expirationDate 
+],
+);
 annotate service.Products with {
     name @(
         Common.ValueList : {
@@ -147,109 +130,78 @@ annotate service.Products with {
     categorie @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',
-            CollectionPath : 'Categories', // Aponta para a Entity Set 'Categories' no MainService
+            CollectionPath : 'Categories',
             Parameters : [
                 {
                     $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : categorie_ID, // Campo local (no produto) que será preenchido
-                    ValueListProperty : 'ID', // Campo do Value Help (na Categoria) que será usado para preencher o local
+                    LocalDataProperty : categorie_ID,
+                    ValueListProperty : 'ID', 
                 },
                 {
                     $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name', // <-- ISSO FAZ O NOME DA CATEGORIA APARECER NO VALUE HELP
+                    ValueListProperty : 'name',
                 },
-                // Se você quiser que o campo 'name' da categoria seja um campo de busca/filtro no Value Help
-                // {
-                //     $Type : 'Common.ValueListParameterIn',
-                //     ValueListProperty : 'name',
-                // }
+               
             ],
-            // Adicional: Ordenar a lista de categorias por nome
-            // SortRestrictions : [
-            //     { Property: 'name', Descending: false }
-            // ]
+          
         },
-        Common.ValueListWithFixedValues : true // Útil se a lista de categorias for pequena e fixa
+        Common.ValueListWithFixedValues : true
     );
 
     supplier @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',
-            CollectionPath : 'Suppliers', // Aponta para a Entity Set 'Suppliers' no MainService
+            CollectionPath : 'Suppliers',
             Parameters : [
                 {
                     $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : supplier_ID, // Campo local (no produto)
-                    ValueListProperty : 'ID', // Campo do Value Help (no Fornecedor)
+                    LocalDataProperty : supplier_ID,
+                    ValueListProperty : 'ID',
                 },
                 {
                     $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name', // <-- ISSO FAZ O NOME DO FORNECEDOR APARECER NO VALUE HELP
+                    ValueListProperty : 'name'
                 },
-                // Se você quiser que o campo 'name' do fornecedor seja um campo de busca/filtro no Value Help
-                // {
-                //     $Type : 'Common.ValueListParameterIn',
-                //     ValueListProperty : 'name',
-                // }
+              
             ],
-            // Adicional: Ordenar a lista de fornecedores por nome
-            // SortRestrictions : [
-            //     { Property: 'name', Descending: false }
-            // ]
+        
         },
         Common.ValueListWithFixedValues : true
     );
      currency @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',
-            CollectionPath : 'Currency', // Aponta para a Entity Set 'Suppliers' no MainService
+            CollectionPath : 'Currency',
             Parameters : [
                 {
                     $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : currency_code, // Campo local (no produto)
-                    ValueListProperty : 'code', // Campo do Value Help (no Fornecedor)
+                    LocalDataProperty : currency_code,
+                    ValueListProperty : 'code', 
                 },
                 {
                     $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name', // <-- ISSO FAZ O NOME DO FORNECEDOR APARECER NO VALUE HELP
+                    ValueListProperty : 'name', 
                 },
-                // Se você quiser que o campo 'name' do fornecedor seja um campo de busca/filtro no Value Help
-                // {
-                //     $Type : 'Common.ValueListParameterIn',
-                //     ValueListProperty : 'name',
-                // }
             ],
-            // Adicional: Ordenar a lista de fornecedores por nome
-            // SortRestrictions : [
-            //     { Property: 'name', Descending: false }
-            // ]
         },
         Common.ValueListWithFixedValues : true
     );
      measure @(
         Common.ValueList : {
             $Type : 'Common.ValueListType',
-            CollectionPath : 'UnitMeasurement', // Aponta para a Entity Set 'Suppliers' no MainService
+            CollectionPath : 'UnitMeasurement',
             Parameters : [
                 {
                     $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : measure_code, // Campo local (no produto)
-                    ValueListProperty : 'code', // Campo do Value Help (no Fornecedor)
+                    LocalDataProperty : measure_code,
+                    ValueListProperty : 'code',
                 },
                 {
                     $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name', // <-- ISSO FAZ O NOME DO FORNECEDOR APARECER NO VALUE HELP
+                    ValueListProperty : 'name',
                 },
-                // Se você quiser que o campo 'name' do fornecedor seja um campo de busca/filtro no Value Help
-                // {
-                //     $Type : 'Common.ValueListParameterIn',
-                //     ValueListProperty : 'name',
-                // }
+               
             ],
-            // Adicional: Ordenar a lista de fornecedores por nome
-            // SortRestrictions : [
-            //     { Property: 'name', Descending: false }
-            // ]
         },
         Common.ValueListWithFixedValues : true
     );

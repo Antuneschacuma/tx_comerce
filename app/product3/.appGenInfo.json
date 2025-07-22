@@ -1,21 +1,21 @@
 {
   "generationParameters": {
-    "generationDate": "Sun Jul 20 2025 11:20:06 GMT+0000 (Coordinated Universal Time)",
+    "generationDate": "Tue Jul 22 2025 13:15:13 GMT+0000 (Coordinated Universal Time)",
     "generatorPlatform": "SAP Business Application Studio",
-    "serviceType": "Local Cap",
+    "serviceType": "Local CAP",
     "metadataFilename": "",
-    "serviceUrl": "http://localhost:4004/e-commerce/",
-    "appName": "products",
-    "appTitle": "Product Management",
+    "serviceUrl": "http://localhost:4004/tx-commerce/",
+    "appName": "product3",
+    "appTitle": "Mais Um ",
     "appDescription": "An SAP Fiori application.",
-    "appNamespace": "tx.commerce.product",
+    "appNamespace": "tx.commerce.product3",
     "ui5Theme": "sap_horizon",
     "ui5Version": "1.138.0",
     "enableCodeAssist": false,
     "enableEslint": false,
     "enableTypeScript": false,
     "showMockDataInfo": false,
-    "generatorVersion": "1.18.2",
+    "generatorVersion": "1.18.3",
     "template": "List Report Page V4",
     "generatorName": "SAP Fiori Application Generator",
     "entityRelatedConfig": [
@@ -28,6 +28,6 @@
         "value": "None"
       }
     ],
-    "launchText": "In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:\n\nhttp://localhost:4004/products/webapp/index.html"
+    "launchText": "To launch the generated app, start your CAP project:  and navigate to the following location in your browser:\n\nhttp://localhost:4004/product3/webapp/index.html"
   }
 }

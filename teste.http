@@ -1,0 +1,1 @@
+GET http://localhost:4004/tx-commerce/Products?$filter=ID eq '6a93516e-afff-4b77-86ff-091579d2f303'

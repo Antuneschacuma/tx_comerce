@@ -4,7 +4,7 @@ using { products.services.ProductService  } from './service/products/products-se
 using {suppliers.services.SuppliersService} from './service/suppliers/suppliers-service';
 using { categories.services.CategoryService} from './service/categories/categories-service';
 
-service MainService @(path : '/e-commerce') {
+service MainService @(path : '/tx-commerce') {
 
     entity Products        as projection on ProductService.Products;
     entity Categories      as projection on CategoryService.Categories;

@@ -1,1 +1,2 @@
-ID,name,description,price,stock,expirationDate,imagemUrl,active,rating,supplier_ID,currency_code,categorie_ID,measure_code,createdAt,createdBy,modifiedAt,modifiedBy
+ID,name,description,price,stock,expirationDate,imagemUrl,active,rating,currency_code,measure_code
+6a93516e-afff-4b77-86ff-091579d2f303,Pao,bom bom,60.20,50,31/12/2025,jjjj.png,true,3.5,AOA,KG
