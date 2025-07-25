@@ -1,4 +1,4 @@
-using MainService as service from '../../srv/main-service';
+using {products.services.ProductService as service} from '../../srv/service/products/products-service';
 annotate service.Products with @(
         odata.draft.enabled : true,
     Capabilities.InsertRestrictions.Insertable : true,
@@ -126,83 +126,84 @@ annotate service.Products with {
             ],
         }
     );
+}
 
-    categorie @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Categories',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : categorie_ID,
-                    ValueListProperty : 'ID', 
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name',
-                },
+//     categorie @(
+//         Common.ValueList : {
+//             $Type : 'Common.ValueListType',
+//             CollectionPath : 'Categories',
+//             Parameters : [
+//                 {
+//                     $Type : 'Common.ValueListParameterInOut',
+//                     LocalDataProperty : categorie_ID,
+//                     ValueListProperty : 'ID', 
+//                 },
+//                 {
+//                     $Type : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty : 'name',
+//                 },
                
-            ],
+//             ],
           
-        },
-        Common.ValueListWithFixedValues : true
-    );
+//         },
+//         Common.ValueListWithFixedValues : true
+//     );
 
-    supplier @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Suppliers',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : supplier_ID,
-                    ValueListProperty : 'ID',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name'
-                },
+//     supplier @(
+//         Common.ValueList : {
+//             $Type : 'Common.ValueListType',
+//             CollectionPath : 'Suppliers',
+//             Parameters : [
+//                 {
+//                     $Type : 'Common.ValueListParameterInOut',
+//                     LocalDataProperty : supplier_ID,
+//                     ValueListProperty : 'ID',
+//                 },
+//                 {
+//                     $Type : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty : 'name'
+//                 },
               
-            ],
+//             ],
         
-        },
-        Common.ValueListWithFixedValues : true
-    );
-     currency @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Currency',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : currency_code,
-                    ValueListProperty : 'code', 
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name', 
-                },
-            ],
-        },
-        Common.ValueListWithFixedValues : true
-    );
-     measure @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'UnitMeasurement',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : measure_code,
-                    ValueListProperty : 'code',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'name',
-                },
+//         },
+//         Common.ValueListWithFixedValues : true
+//     );
+//      currency @(
+//         Common.ValueList : {
+//             $Type : 'Common.ValueListType',
+//             CollectionPath : 'Currency',
+//             Parameters : [
+//                 {
+//                     $Type : 'Common.ValueListParameterInOut',
+//                     LocalDataProperty : currency_code,
+//                     ValueListProperty : 'code', 
+//                 },
+//                 {
+//                     $Type : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty : 'name', 
+//                 },
+//             ],
+//         },
+//         Common.ValueListWithFixedValues : true
+//     );
+//      measure @(
+//         Common.ValueList : {
+//             $Type : 'Common.ValueListType',
+//             CollectionPath : 'UnitMeasurement',
+//             Parameters : [
+//                 {
+//                     $Type : 'Common.ValueListParameterInOut',
+//                     LocalDataProperty : measure_code,
+//                     ValueListProperty : 'code',
+//                 },
+//                 {
+//                     $Type : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty : 'name',
+//                 },
                
-            ],
-        },
-        Common.ValueListWithFixedValues : true
-    );
-};
+//             ],
+//         },
+//         Common.ValueListWithFixedValues : true
+//     );
+// };

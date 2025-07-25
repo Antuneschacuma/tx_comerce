@@ -1,7 +1,7 @@
 {
   "_version": "1.65.0",
   "sap.app": {
-    "id": "tx.commerce.product3.product3",
+    "id": "tx.commerce.product.products",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,11 +13,11 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.18.3",
-      "toolsId": "d01fa28a-ea6c-4025-988b-533684124856"
+      "toolsId": "8bbe39fa-5c64-4b4c-a37b-56672fa345ba"
     },
     "dataSources": {
       "mainService": {
-        "uri": "/tx-commerce/",
+        "uri": "/products/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -45,7 +45,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.138.0",
+      "minUI5Version": "1.138.1",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -60,7 +60,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "tx.commerce.product3.product3.i18n.i18n"
+          "bundleName": "tx.commerce.product.products.i18n.i18n"
         }
       },
       "": {

@@ -1,1 +1,23 @@
-GET http://localhost:4004/tx-commerce/Products?$filter=ID eq '6a93516e-afff-4b77-86ff-091579d2f303'
+GET http://localhost:4004/products/Products?$filter=ID eq 'c65b37f1-9345-4a29-9d87-129e0d9e1237'
+
+###
+POST http://localhost:4004/products/Products
+Content-Type: application/json
+
+{   "name":"Carvao",
+    "description": "Uma descrição para o produto",
+    "price": 19.20,
+    "stock": 100,
+    "expirationDate": "2026-12-31",
+    "imagemUrl": "http://example.com/image.jpg",
+    "rating": 4.5
+}
+
+###
+POST http://localhost:4004/products/Products(6a93516e-afff-4b77-86ff-091579d2f303)/updateStock
+Content-Type: application/json
+
+{
+    "quantityChange": 0,
+    "operation": "ADD"
+}

@@ -18,9 +18,10 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-product3": "cds watch --open product3/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-products": "cds watch --open products/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "sapux": [
-    "app/product3"
+    "app/product3",
+    "app/products"
   ]
 }
