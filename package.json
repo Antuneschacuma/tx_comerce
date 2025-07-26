@@ -21,7 +21,7 @@
     "watch-products": "cds watch --open products/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "sapux": [
-    "app/product3",
+
     "app/products"
   ]
 }
