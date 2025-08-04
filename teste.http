@@ -1,10 +1,10 @@
-GET http://localhost:4004/products/Products?$filter=ID eq '6a93516e-afff-4b77-86ff-091579d2f303'
+GET http://localhost:4004/products/ProductsView?$filter=ID eq '4c4ccdac-0237-4e46-9b16-945c9546e036'
 
 ###
 POST http://localhost:4004/products/Products
 Content-Type: application/json
 
-{   "name":"",
+{   "name":"Bolo",
     "description": "Uma descrição para o produto",
     "price": 19.20,
     "stock": 100,
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:4004/products/Products(6a93516e-afff-4b77-86ff-091579d2f303)/updateStock
+POST http://localhost:4004/products/Products(5bb30c29-127f-4fd2-bfdb-fb1849d83a20)/updateStock
 Content-Type: application/json
 
 {
