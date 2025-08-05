@@ -1,4 +1,4 @@
-using {products.services.ProductService as prod} from '../../srv/products/products-service';
+using {products.services.ProductService as prod} from '../../../srv/products/products-service';
 
 annotate prod.Products with {
 

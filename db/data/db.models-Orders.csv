@@ -1,1 +1,2 @@
-ID,orderDate,status,totalAmount,currency_code_code,createdAt,createdBy,modifiedAt,modifiedBy
+ID,orderDate,status,totalAmount,currency_code
+15eb436f-22d0-4842-9d5e-12835dc47644,5/08/2025,pendente,700,AOA

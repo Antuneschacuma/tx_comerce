@@ -78,9 +78,9 @@ entity Orders      : MyCustomManagedEntity {
     @Common.Label  :'Status do Pedido'
     status         : String(50);
     @Common.Label  :'Valor Total do Pedido'
-    totalAmount    : Decimal(11, 2) @(Measures.Unit : currency_code.code);
+    totalAmount    : Decimal(11, 2) @(Measures.Unit : currency.code);
     @Common.Label  :'Moeda do Pedido'
-    currency_code  : Association to custonAspects.Currency;
+    currency       : Association to custonAspects.Currency;
     @Common.Label  :'Cliente'
     items          : Association to many OrderItems on items.order = $self;
 }

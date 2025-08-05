@@ -1,2 +1,2 @@
 ID,name,description,price,stock,imagemUrl,rating,category_ID,supplier_ID,currency_code,measure_code,expirationdate
-4c4ccdac-0237-4e46-9b16-945c9546e036,Pao,bom bom,50.60,50,jjjj.png,4.5,9285d444-7b11-46f1-b6c8-ca3eb95835c1,840246dd-c713-47f4-b2ce-4b8b6e4e7ed1,AOA,KG,31/12/2016
+4c4ccdac-0237-4e46-9b16-945c9546e036,Pao,bom bom,50.60,20,jjjj.png,4.5,9285d444-7b11-46f1-b6c8-ca3eb95835c1,840246dd-c713-47f4-b2ce-4b8b6e4e7ed1,AOA,KG,31/12/2016
