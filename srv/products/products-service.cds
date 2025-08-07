@@ -15,16 +15,15 @@ service ProductService @(path: '/products') {
     } actions {
         action updateProductPrice(newPrice: Decimal(10, 2)) returns Products;
         action updateStock(quantityChange: Integer, operation: String) returns Products;
-        action suggestProductPrice(category: String, stock: Integer) returns Decimal(10,2);
         action toggleProductStatus(productIDs: array of UUID, activate: Boolean) returns String;
     
       
        
     };
 
-    @readonly entity Suppliers as projection on db.Suppliers; 
-    @readonly entity Categories as projection on db.Categories;
-    @readonly entity Country as projection on custonAspects.Country;
-    @readonly entity Currency as projection on custonAspects.Currency;
-    @readonly entity UnitMeasurement as projection on custonAspects.UnitMeasurement;
+     entity Suppliers as projection on db.Suppliers; 
+     entity Categories as projection on db.Categories;
+     entity Country as projection on custonAspects.Country;
+     entity Currency as projection on custonAspects.Currency;
+     entity UnitMeasurement as projection on custonAspects.UnitMeasurement;
 };

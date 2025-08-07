@@ -1,10 +1,14 @@
+
 using {products.services.ProductService as prod} from '../../../srv/products/products-service';
 
-annotate prod.Products with {
 
+
+// Value Helpers otimizados
+annotate prod.Products with {
     category @(
-           Common.Text.@UI.TextArrangement : #TextOnly,
-           Common.ValueList: {
+        Common.Text: category.name,
+        Common.TextArrangement : #TextOnly,
+        Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'Categories',
             Parameters: [
@@ -25,7 +29,7 @@ annotate prod.Products with {
         }
     );
 
-     category_name @(
+    category_name @(
         Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'Categories',
@@ -34,14 +38,15 @@ annotate prod.Products with {
                     $Type: 'Common.ValueListParameterInOut',
                     LocalDataProperty: category_name,
                     ValueListProperty: 'name'
-                },
+                }
             ]
         }
     );
 
     supplier @(
-          Common.Text.@UI.TextArrangement : #TextOnly,
-          Common.ValueList: {
+        Common.Text: supplier.name,
+        Common.TextArrangement : #TextOnly,
+        Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'Suppliers',
             Parameters: [
@@ -66,7 +71,7 @@ annotate prod.Products with {
         }
     );
 
-      supplier_name @(
+    supplier_name @(
         Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'Suppliers',
@@ -89,8 +94,9 @@ annotate prod.Products with {
     );
 
     currency @(
-         Common.Text.@UI.TextArrangement : #TextOnly,
-         Common.ValueList: {
+        Common.Text: currency.name,
+        Common.TextArrangement : #TextOnly,
+        Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'Currency',
             Parameters: [
@@ -108,8 +114,9 @@ annotate prod.Products with {
     );
 
     measure @(
-         Common.Text.@UI.TextArrangement : #TextOnly,
-         Common.ValueList: {
+        Common.Text: measure.name,
+        Common.TextArrangement : #TextOnly,
+        Common.ValueList: {
             $Type: 'Common.ValueListType',
             CollectionPath: 'UnitMeasurement',
             Parameters: [
@@ -121,7 +128,28 @@ annotate prod.Products with {
                 {
                     $Type: 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty: 'name'
+                }
+            ]
+        }
+    );
+
+
+    stock @(
+        Common.Text: measure.name,
+        Common.TextArrangement : #TextOnly,
+        Common.ValueList: {
+            $Type: 'Common.ValueListType',
+            CollectionPath: 'Products',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: stock,
+                    ValueListProperty: 'stock'
                 },
+                // {
+                //     $Type: 'Common.ValueListParameterDisplayOnly',
+                //     ValueListProperty: 'name'
+                // }
             ]
         }
     );
@@ -134,4 +162,30 @@ annotate prod.Products with {
         UI.IsImageURL: true
     );
 
+    // Validações adicionais
+    price @(
+        Common.FieldControl: #Mandatory,
+        Measures.ISOCurrency: currency_code
+    );
+
+    stock @(
+        Common.FieldControl: #Mandatory,
+        Validation.Minimum: 0
+    );
+
+    // expirationDate @(
+    //     Common.FieldControl: {
+    //         $edmJson: {
+    //             $If: [
+    //                 { $Ne: [{ $Path: 'category_name' }, 'Perecível'] },
+    //                 1,  // ReadOnly se não for perecível
+    //                 7   // Mandatory se for perecível
+    //             ]
+    //         }
+    //     }
+    // );
 };
+
+
+
+

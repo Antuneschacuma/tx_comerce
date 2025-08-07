@@ -1,11 +1,9 @@
 using {products.services.ProductService as prod} from '../../../srv/products/products-service';
 
 annotate prod.Products with @(
-
-
     odata.draft.enabled : true,
     Capabilities.InsertRestrictions.Insertable : true,
-    Capabilities.UpdateRestrictions.Updatable : true,
+    //Capabilities.UpdateRestrictions.Updatable : true,
     Capabilities.DeleteRestrictions.Deletable : true,
 
     UI: {
@@ -33,12 +31,12 @@ annotate prod.Products with @(
         },
 
         DataPoint #StockIndicator: {
-        $Type         : 'UI.DataPointType',
-        Value         : stock,
-        Title         : 'Estoque Atual',
-        Visualization : #Number,
-        Criticality   : stock
-       },
+            $Type         : 'UI.DataPointType',
+            Value         : stock,
+            Title         : 'Estoque Atual',
+            Visualization : #Number,
+            Criticality   : stock
+        },
         
         FieldGroup #GeneralInfo: {
             $Type: 'UI.FieldGroupType',
@@ -51,7 +49,7 @@ annotate prod.Products with @(
             ]
         },
 
-        FieldGroup #PricingAndStock: {
+       FieldGroup #PricingAndStock: {
             $Type: 'UI.FieldGroupType',
             Data : [
                 { $Type: 'UI.DataField', Value: price },
@@ -122,8 +120,30 @@ annotate prod.Products with @(
             { $Type: 'UI.DataField', Value: active },
             { $Type: 'UI.DataFieldForAnnotation', Target: '@UI.DataPoint#StockIndicator', Label: 'Estoque' },
             { $Type: 'UI.DataFieldForAnnotation', Target: '@UI.DataPoint#RatingProduct', Label: 'Avaliação' },
-            { $Type: 'UI.DataFieldForAction', Action: 'prod.updateProductPrice', Label: 'Atualizar Preço' },
-            { $Type: 'UI.DataFieldForAction', Action: 'prod.toggleProductStatus', Label: 'Ativar/Desativar', InvocationGrouping: #ChangeSet }
+            
+            // ACTIONS OTIMIZADAS - Estas são as principais mudanças!
+            { 
+                $Type: 'UI.DataFieldForAction', 
+                Action: 'products.services.ProductService.updateProductPrice', 
+                Label: 'Atualizar Preço',
+                IconUrl: 'sap-icon://edit',
+                Criticality: 3  // Amarelo para destaque
+            },
+            { 
+                $Type: 'UI.DataFieldForAction', 
+                Action: 'products.services.ProductService.updateStock', 
+                Label: 'Ajustar Estoque',
+                IconUrl: 'sap-icon://inventory',
+                Criticality: 2  // Verde
+            },
+            { 
+                $Type: 'UI.DataFieldForAction', 
+                Action: 'products.services.ProductService.toggleProductStatus', 
+                Label: 'Ativar/Desativar', 
+                IconUrl: 'sap-icon://switch-views',
+                InvocationGrouping: #ChangeSet,
+                Criticality: 1  // Vermelho para ação crítica
+            },
         ],
 
         SelectionFields : [
@@ -151,25 +171,50 @@ annotate prod.Products with @(
                 $Type : 'UI.ReferenceFacet',
                 ID    : 'RatingHeaderFacet',
                 Target: '@UI.DataPoint#RatingProduct'
-            },
-]
+            }
+        ]
     },
 
-    Capabilities: {
-        SearchRestrictions: {
-            Searchable: true,
-            UnsupportedExpressions: #phrase
-        },
-        FilterRestrictions: {
-            Filterable: true,
-            RequiredProperties: [],
-            NonFilterableProperties: [imagemUrl]
-        },
-        SortRestrictions: {
-            Sortable: true,
-            AscendingOnlyProperties: [],
-            DescendingOnlyProperties: [],
-            NonSortableProperties: [imagemUrl]
-        }
+    // Capabilities: {
+    //     SearchRestrictions: {
+    //         Searchable: true,
+    //         UnsupportedExpressions: #phrase
+    //     },
+    //     FilterRestrictions: {
+    //         Filterable: true,
+    //         RequiredProperties: [],
+    //         NonFilterableProperties: [imagemUrl]
+    //     },
+    //     SortRestrictions: {
+    //         Sortable: true,
+    //         AscendingOnlyProperties: [],
+    //         DescendingOnlyProperties: [],
+    //         NonSortableProperties: [imagemUrl]
+    //     }
+    // }
+);
+
+annotate prod.Products.updateProductPrice with @(
+    Core.OperationAvailable: true,
+    Common.SideEffects: {
+        $Type: 'Common.SideEffectsType',
+        TargetProperties: ['price', 'modifiedAt', 'modifiedBy']
+    }
+);
+
+annotate prod.Products.updateStock with @(
+    Core.OperationAvailable: true,
+    Common.SideEffects: {
+        $Type: 'Common.SideEffectsType',
+        TargetProperties: ['stock', 'modifiedAt', 'modifiedBy']
+    }
+);
+
+
+annotate prod.Products.toggleProductStatus with @(
+    Core.OperationAvailable: true,
+    Common.SideEffects: {
+        $Type: 'Common.SideEffectsType',
+        TargetProperties: ['active', 'modifiedAt', 'modifiedBy']
     }
 );

@@ -1,169 +1,171 @@
-// srv/service/products/products.js
 const cds = require('@sap/cds');
-// Importar o módulo 'fiori-elements-internationalization' para usar as mensagens i18n
-// O CDS carrega automaticamente os arquivos _i18n.properties.
-// Podemos acessá-los através de req.error ou cds.error, que buscarão as mensagens.
 
 class ProductService extends cds.ApplicationService {
     async init() {
-        const { Products } = this.entities;
+        const { Products, Categories } = this.entities;
 
-        // --- Validações (Hooks) ---
-        this.before(['CREATE', 'UPDATE'], Products, this.validateProductData);
-        // this.after(['CREATE', 'UPDATE'], Products, this.logProductChange);
-
-        // // --- Handlers para Actions e Functions ---
-        // this.on('toggleProductStatus', this.toggleProductStatusHandler);
-        // this.on('getLowStockProducts', this.getLowStockProductsHandler);
-        // this.on('updateProductPrice', this.updateProductPriceHandler);
-        this.on('updateStock', this._updateStockHandler); // Handler para a nova Action de estoque
-
-        return super.init();
+        //Minhas Acoes
+        this.on('updateStock', this.updateStockHandler);
+        this.on('updateProductPrice',this.updateProductPriceHandler);
+        this.on('toggleProductStatus', Products, this.toggleProductStatusHandler);
+        
+        //Minhas Validacoes
+        this.before('CREATE', Products, this.validateProductHandler);
+        this.after('CREATE', Products, this.afterCreateProductHandler);
+        this.after('UPDATE', Products, this.afterUpdateProductHandler);
+        
+        await super.init();
     }
 
-    // --- Métodos de Validação ---
-
-    /**
-     * Valida dados essenciais do Produto antes de criar ou atualizar.
-     * Usa mensagens do arquivo i18n.
-     */
-    validateProductData(req) {
-        const { name } = req.data;
-
-        if (!name || name.trim() === '') {
-            // O target indica qual campo específico do payload causou o erro
-            return req.error('PRODUCT_NAME_EMPTY');
-        }
-        // if (price === undefined || price === null || price <= 0) {
-        //     req.error({ code: '400', message: req.i18n.t('PRODUCT_INVALID_PRICE'), target: 'price' });
-        // }
-        // if (stock === undefined || stock === null || stock < 0) {
-        //     req.error({ code: '400', message: req.i18n.t('PRODUCT_INVALID_STOCK'), target: 'stock' });
-        // }
-        // if (expirationDate && new Date(expirationDate) < new Date()) {
-        //     req.error({ code: '400', message: req.i18n.t('PRODUCT_EXPIRED_DATE'), target: 'expirationDate' });
-        // }
-        // if (imagemUrl && !/^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp)$/i.test(imagemUrl)) {
-        //      req.error({ code: '400', message: req.i18n.t('PRODUCT_INVALID_IMAGE_URL'), target: 'imagemUrl' });
-        // }
-    }
-
-    // /**
-    //  * Exemplo de método 'after' hook: Loga mudanças em um produto.
-    //  * Não precisa de i18n aqui, pois é um log interno.
-    //  */
-    // logProductChange(data, req) {
-    //     console.log(`Produto ${data.ID} (${data.name}) foi ${req.event}.`);
-    // }
-
-    // // --- Métodos para Handlers de Actions e Functions ---
-
-    // /**
-    //  * Handler para a Action 'toggleProductStatus'.
-    //  * Usa mensagens do arquivo i18n.
-    //  */
-    // async toggleProductStatusHandler(req) {
-    //     const { productIDs, activate } = req.data;
-    //     const { Products } = this.entities;
-
-    //     if (!productIDs || productIDs.length === 0) {
-    //         req.error({ code: '400', message: req.i18n.t('MISSING_PRODUCT_IDS') });
-    //     }
-
-    //     try {
-    //         const result = await cds.update(Products)
-    //             .set({ active: activate })
-    //             .where({ ID: { in: productIDs } });
-
-    //         // Não há uma mensagem de sucesso explícita no i18n para isso,
-    //         // mas poderia ser adicionada se o retorno fosse complexo.
-    //         return `Status de ${result.rowsAffected} produto(s) atualizado(s) para ${activate ? 'ativo' : 'inativo'}.`;
-    //     } catch (error) {
-    //         req.error({ code: '500', message: req.i18n.t('UPDATE_FAILED', error.message) });
-    //     }
-    // }
-
-    // /**
-    //  * Handler para a Function 'getLowStockProducts'.
-    //  */
-    // async getLowStockProductsHandler(req) {
-    //     const LOW_STOCK_THRESHOLD = 20;
-    //     const { Products } = this.entities;
-    //     const lowStockProducts = await cds.read(Products)
-    //         .where`active = true and stock < ${LOW_STOCK_THRESHOLD}`;
-    //     return lowStockProducts;
-    // }
-
-    // /**
-    //  * Handler para a Action de instância 'updateProductPrice'.
-    //  * Usa mensagens do arquivo i18n.
-    //  */
-    // async updateProductPriceHandler(req) {
-    //     const { ID } = req.target;
-    //     const { newPrice } = req.data;
-    //     const { Products } = this.entities;
-
-    //     if (newPrice === undefined || newPrice === null || newPrice <= 0) {
-    //         req.error({ code: '400', message: req.i18n.t('INVALID_NEW_PRICE'), target: 'newPrice' });
-    //     }
-
-    //     try {
-    //         await cds.update(Products)
-    //             .set({ price: newPrice })
-    //             .where({ ID: ID });
-    //         // Retorna o produto atualizado para a UI (conforme definido no CDS)
-    //         return await cds.read(Products, ID);
-    //     } catch (error) {
-    //         req.error({ code: '500', message: req.i18n.t('PRICE_UPDATE_FAILED', error.message) });
-    //     }
-    // }
-
-    // /**
-    //  * Handler para a nova Action 'updateStock'.
-    //  * Gerencia a adição ou remoção de estoque para um produto.
-    //  * Usa mensagens do arquivo i18n.
-    //  * @param {object} req - O objeto de requisição da Action.
-    //  */
-    async _updateStockHandler(req) {
-        const { ID } = req.params[0];
-        const { quantityChange, operation } = req.data;
-        const { Products } = this.entities;
-    
-       
-    if (isNaN(quantityChange) || quantityChange <= 0) {
-        return req.error('INVALID_STOCK_QUANTITY')//(404, req.i18n.getText('INVALID_STOCK_QUANTITY'));
-    }
-    
-    if (!['ADD', 'SUBTRACT'].includes(operation)) {
-        return req.error(400, req.i18n.getText('INVALID_OPERATION_METHOD'));
-    }
-    
+    async updateProductPriceHandler(req) {
         try {
-            const product = await SELECT.one.from(Products, ID).columns('stock','name');
-            if (!product) {
-                return req.error(404, req.i18n.getText('PRODUCT_NOT_FOUND_FOR_STOCK_UPDATE', [ID]));
+            const { ID } = req.params[0] || req.data;
+            const { newPrice } = req.data;
+        
+            if (!newPrice || newPrice <= 0) {
+                req.error('INVALID_NEW_PRICE');
+                return;
             }
-    
-            // Cálculo do novo estoque
-            let newStock = product.stock;
-            if (operation === 'ADD') {
-                newStock += quantityChange;
-            } else {
-                if (product.stock < quantityChange) {
-                    return req.error(400, req.i18n.getText('STOCK_INSUFFICIENT', 
-                        [product.name, product.stock, quantityChange]));
-                }
-                newStock -= quantityChange;
-            }
-    
-            // Atualização
-            await UPDATE(Products, ID).with({ stock: newStock });
+
+            const result = await this.run(
+                UPDATE('Products')
+                    .set({ 
+                        price: newPrice,
+                        modifiedAt: new Date(),
+                        modifiedBy: req.user.id || 'system'
+                    })
+                    .where({ ID })
+            );
             
-            // Retorna o produto atualizado conforme definido no CDS
-            return SELECT.one.from(Products, ID);
+            if (result === 0) {
+                req.error('PRODUCT_NOT_FOUND');
+                return;
+            }
+
+            const updatedProduct = await this.run(
+                SELECT.one.from('Products').where({ ID })
+            );
+            
+            req.info(`Preço do/a ${updatedProduct.name} atualizado para ${newPrice}`);
+            return updatedProduct;
             
         } catch (error) {
-            return req.error(500, req.i18n.getText('STOCK_UPDATE_FAILED'));
+            req.error(500, 'Erro interno do servidor');
+        }
+    }
+
+    async updateStockHandler(req) {
+        try {
+            const { ID } = req.params[0] || req.data;
+            const { quantityChange, operation } = req.data;
+
+            const product = await this.run(SELECT.one.from('Products').where({ ID }));
+            
+            if (!product) {req.error('PRODUCT_NOT_FOUND');
+                return;
+            }
+
+            let newStock;
+                
+            switch (operation) {
+                case 'ADD':
+                    newStock = product.stock + quantityChange;
+                    break;
+                case 'SUBTRACT':
+                    newStock = product.stock - quantityChange;
+                    break;
+                case 'SET':
+                    newStock = quantityChange;
+                    break;
+                default:
+                    req.error('INVALID_OPERATION_METHOD');
+                    return;
+            }
+
+            if (newStock < 0) {req.error('INVALID_STOCK_QUANTITY');
+                return;
+            }
+
+            await this.run( UPDATE('Products').set({ 
+                        stock: newStock,
+                        modifiedAt: new Date(),
+                        modifiedBy: req.user.id || 'system'
+                    }) .where({ ID })
+            );
+
+            const updatedProduct = await this.run( SELECT.one.from('Products').where({ ID }));
+            
+            req.info(`Estoque do/a ${product.name} atualizado para ${newStock}`);
+            return updatedProduct;
+            
+        } catch (error) {
+            req.error(500, 'Erro interno do servidor');
+        }
+    }
+    
+    async toggleProductStatusHandler(req) {
+        try {
+            const { productIDs, activate } = req.data;
+            
+            if (!productIDs || productIDs.length === 0) {req.error(400, 'Nenhum produto selecionado');
+                return;
+            }
+
+            const result = await this.run(UPDATE('Products').set({ 
+                        active: activate,
+                        modifiedAt: new Date(),
+                        modifiedBy: req.user.id || 'system'
+                    })
+                    .where({ ID: { in: productIDs } })
+            );
+
+            const action = activate ? 'ativados' : 'desativados';
+            const message = `${result} produto(s) ${action} com sucesso`;
+            
+            req.info(message);
+            return message;
+            
+        } catch (error) {
+            req.error(500, 'Erro interno do servidor');
+        }
+    }
+
+    async validateProductHandler(req) {
+        const { name, stock, price, expirationDate, category_ID, imagemUrl } = req.data;
+        
+        if (!name || name.trim() === '') {
+            return req.error('PRODUCT_NAME_EMPTY');
+        }
+        if (price === undefined || price === null || price <= 0) {
+            req.error('PRODUCT_INVALID_PRICE');
+        }
+        if (stock === undefined || stock === null || stock < 0) {
+            req.error('PRODUCT_INVALID_STOCK');
+        }
+        if (expirationDate && new Date(expirationDate) < new Date()) {
+            req.error('PRODUCT_EXPIRED_DATE');
+        }
+        if (imagemUrl && !/^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp)$/i.test(imagemUrl)) {
+            req.error('PRODUCT_INVALID_IMAGE_URL');
+        }
+
+        if (category_ID) {
+            const category = await this.run(
+                SELECT.one.from('Categories').where({ ID: category_ID })
+            );
+            if (category && category.name === 'Perecível' && !expirationDate) {
+                req.error(400, 'Data de expiração é obrigatória para produtos perecíveis');
+            }
+        }
+    }
+    
+    async afterCreateProductHandler(result, req) {
+        req.info(`Produto ${result.name} criado com sucesso`);
+    }
+
+    async afterUpdateProductHandler(result, req) {
+        if (result) {
+            req.info(`Produto atualizado com sucesso`);
         }
     }
 }
